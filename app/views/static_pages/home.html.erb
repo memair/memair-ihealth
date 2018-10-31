@@ -1,0 +1,17 @@
+<div class="center jumbotron">
+  <h1>Memair iHealth App</h1>
+  <% flash.each do |key, value| %>
+    <div class="<%= flash_class(key) %>">
+      <%= value %>
+    </div>
+  <% end %>
+  <% unless user_signed_in? %>
+    <%= button_to "Connect with Memair", user_memair_omniauth_authorize_path, id: "sign_in", class: "btn btn-lg btn-primary" %>
+  <% end %>
+  <% if user_signed_in? && current_user.ihealth_access_token.nil? %>
+    <%= link_to "Connect with iHealth", '#', data: { turbolinks: false }, class: "btn btn-lg btn-primary" %>
+  <% end %>
+  <% if user_signed_in? %>
+    <%= button_to "Delete this app", registration_path(current_user), data: { confirm: 'This app will no longer have access to your data. Data on Memair and iHealth will be unaffected.', title: 'Are you sure you?' }, method: :delete, class: "btn btn-lg btn-danger" %>
+  <% end %>
+</div>
